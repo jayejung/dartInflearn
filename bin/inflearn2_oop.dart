@@ -56,6 +56,25 @@ void main() {
   print('redVelvet is BoyGroup: ${redVelvet is BoyGroup}');
   print('redVelvet is GirlGroup: ${redVelvet is GirlGroup}');
 
+  Employee jayej = Employee('jaye.j');
+  Employee jayejung = Employee('jaye.jung');
+
+  // static member
+  Employee.building = 'H square, N';
+  jayej.printNameAndBuilding();
+  jayejung.printNameAndBuilding();
+
+  // interface
+  MixedGroup sharp = MixedGroup('Sharp');
+  sharp.sayName();
+  print('sharp is IdolInterface: ${sharp is IdolInterface}');
+  print('sharp is MixedGroup: ${sharp is MixedGroup}');
+
+  // generic
+  Lecture<String> english = Lecture("1",'English');
+  Lecture<int> math = Lecture(2, 'Math');
+  english.printIdType();
+  math.printIdType();
 }
 
 class Family {
@@ -133,5 +152,57 @@ class GirlGroup extends Idol {
   void sayFemale() {
     print('we are girl group');
   }
+
+  @override
+  void sayName() {
+    print('This is girlGroup ${name}');
+  }
 }
 
+class Employee {
+  // 피고용인의 근무 건물
+  static String? building;
+  // 피고용인 이름
+  final String name;
+
+  Employee(this.name);
+
+  void printNameAndBuilding() {
+    print('my name is $name. I\'m working in $building');
+  }
+
+  static void printBuilding() {
+    print('I\'m working in $building');
+  }
+}
+
+abstract class IdolInterface {
+  String name;
+
+  IdolInterface(this.name);
+
+  void sayName();
+}
+
+class MixedGroup implements IdolInterface {
+  @override
+  String name;
+
+  MixedGroup(this.name);
+
+  @override
+  void sayName() {
+    print('hello my name is $name');
+  }
+}
+
+class Lecture<T> {
+  final T id;
+  final String name;
+
+  Lecture(this.id, this.name);
+
+  void printIdType() {
+    print(id.runtimeType);
+  }
+}
