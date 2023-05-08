@@ -61,32 +61,41 @@ void finalConstSample() {
   //const DateTime now2 = DateTime.now();
 }
 
+/*
+  일반적인 언어들의 연산자와 비슷
+  ??= : ??= 왼쪽의 값이 null이면 오른쪽 값으로 할당. eg. value ??= 3; value가 null이면 3을 할당
+  variable is [type] eg. number is String
+ */
 void operatorSample() {
   int number = 2;
-  print(number);
-  print(number % 2);
-  number ++;
-  print(number);
-  number --;
-  print(number);
+  print("number : $number");
+  print("number % 2 : ${number % 2}");
+  number++;
+  print("number++ : $number");
+  number--;
+  print("number-- : $number");
 
   double dnumber = 4.0;
   dnumber += 1;
-  print(dnumber);
+  print("dnumber += 1 : $dnumber");
   dnumber *= 2;
-  print(dnumber);
+  print("dnumber *= 2 : $dnumber");
   dnumber %= 3;
-  print(dnumber);
+  print("dnumber %= 3: $dnumber");
   dnumber ??= 2.0;
-  print(dnumber);
+  print("dnumber ??= 2.0 : $dnumber");
 
   int number1 = 1;
-  print(number1 is int);
-  print(number1 is String);
-  print(number1 is! int);
-  print(number1 is! String);
+  print("number1 is int : ${number1 is int}");
+  print("number1 is String : ${number1 is String}");
+  print("number1 is! int : ${number1 is! int}");
+  print("number1 is! String : ${number1 is! String}");
 }
 
+/*
+ generic 타입이 dynamic이면 여러가지 타입이 저장됨.
+ list의 where -> filter
+ */
 void listSample() {
   List<dynamic> list = [1, '2', '3rd', true];
 
@@ -104,6 +113,10 @@ void listSample() {
   print(flybyObjects.indexOf('Earth'));
 }
 
+/*
+  map도 여타 언어와 비스한데, entry를 가져올때 배열과 유사하게 ['key이름'] 으로 value를 불러 올 수 있음.
+  eg. dictionary['{key}']
+ */
 void mapSample() {
   Map<String, String> dictionary = {
     'good morning': '좋은 아침~',
@@ -122,6 +135,9 @@ void mapSample() {
   print(dictionary.values);
 }
 
+/*
+  특이 사항 없는듯?
+ */
 void setSample() {
   // 중복제거
   final Set<String> names = {
