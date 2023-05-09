@@ -1,3 +1,7 @@
+/*
+  String에 변수를 포멧팅
+  단일변수는 $만 표현식은 ${} 으로
+ */
 void test1st() {
   String name = '히히히';
   String name2 = '호호호';
@@ -6,9 +10,13 @@ void test1st() {
   print('$name.runtimeType $name2');
 }
 
+/*
+  dynamic 변수는 type 변경이 가능함. (타입 추론을 계속 할 수 있음)
+ */
 void dynamicSample() {
   dynamic name = '코드팩토리';
   dynamic number = 1;
+  print("dynamic number: $number, type of dynamic number: ${number.runtimeType}");
 
   var name2 = '블랙핑크';
 
@@ -17,8 +25,15 @@ void dynamicSample() {
 
   number = '1st';
   //name2 = 1;
+
+  print("dynamic number: $number, type of dynamic number: ${number.runtimeType}");
 }
 
+/*
+  nullable 변수는 타입 뒤에 ?를 붙힌다.
+  non-nullable 변수는 타입 뒤에 !을 붙힌다.
+  null인 경우 기본값 assign은 number ??= 3.0
+ */
 void nullableSample() {
   String name = '카카오엔터테인먼트';
   print(name);
@@ -29,7 +44,7 @@ void nullableSample() {
   name2 = null;
 
   // non-nullable ! 사용
-  //print(name2!);
+  // print(name2!);
   print(name!);
 
   double? number = 4.0;
@@ -41,6 +56,13 @@ void nullableSample() {
   print(number);
 }
 
+/*
+  final/const 사용시 type 혹은 var 생략 가능 (final/const 이므로 타입 추론이 완료 된 상태)
+  final은 runtime시 할당되어도 되는 경우
+  const는 빌드타임에 할당이 되어야 하는 진짜 상수.
+  즉 아래의 코드는 compile error. now2 변수는 runtime시 변경되므로.
+  const DateTime now2 = DateTime.now();
+ */
 void finalConstSample() {
   final String name = '카카오엔터테인먼트';
   print(name);
@@ -58,7 +80,7 @@ void finalConstSample() {
   // const는 빌드타임에 할당되어야 하는.. 말그대로 진짜 상수.
   final DateTime now = DateTime.now();
   print(now);
-  //const DateTime now2 = DateTime.now();
+  // const DateTime now2 = DateTime.now();
 }
 
 /*
@@ -149,6 +171,9 @@ void setSample() {
   print(names);
 }
 
+/*
+  특이 사항 없는 듯
+ */
 void switchSample() {
   int number = 3;
   switch(number % 3) {
@@ -164,6 +189,9 @@ void switchSample() {
   }
 }
 
+/*
+  forEach외에는 java와 다를바 없는 듯
+ */
 void loopSample() {
   List<int> numbers = [1, 2, 3, 4, 5, 6];
   int total = 0;
@@ -187,6 +215,11 @@ void loopSample() {
   total = 0;
 }
 
+/*
+  별다를게 없지만, enum text를 가져오기 위해서는 extension method를 통해서 가져올 수 있음.
+  ParseToString은 extension의 이름이지 호출할때 사용하는 이름이 아님. API 출돌시 이름을 리턴할듯.
+  실제 사용되는 API는 toShortString()임.
+ */
 void enumSample() {
   Status status = Status.pending;
   if (status == Status.approved) {
@@ -196,6 +229,8 @@ void enumSample() {
   } else if (status == Status.rejected) {
     print('거절');
   }
+
+  print("Status.pending: ${Status.pending.toShortString()}");
 }
 
 enum Status {
@@ -204,17 +239,28 @@ enum Status {
   rejected,
 }
 
-// [int? y, int? z] 옵션널한 parameter
-// [int y = 30, int z = 40] 기본값이 있는 옵셔널 파라메터. 전달되면 전달된 값을.. 없으면 기본 값을
+extension ParseToString on Status {
+  String toShortString() {
+    return this.toString().split('.').last;
+  }
+}
+
+/*
+  [int? y, int? z] 옵션널한 parameter는 []로 표기
+  [int y = 30, int z = 40] 기본값이 있는 옵셔널 파라메터. 전달되면 전달된 값을. 없으면 기본 값을 할당.
+ */
 void functionSample(int x, [int y = 0, int z = 0]) {
   print('x: $x, y: $y, z: $z');
   int total = x + y + z;
   print(total);
 }
 
-// required 제거하면 optional
-// 기본값을 넣어서 + 연산에서 예외 발생하지 않게 변경
-// named와 positional parameter를 같이 사용 할 수 있는데, positional이 앞으로 와야함.
+/*
+  parameter 설정을 {}로 묶으면 namedParameter로 되어 호출시 parameter이름 : 값 형태로 호출해야함.
+  required 제거하면 optional.
+  기본값을 넣어서 + 연산에서 예외 발생하지 않게 변경 가능.
+  named와 positional parameter를 같이 사용 할 수 있는데, 이때는 positional이 앞으로 와야함.
+ */
 int namedParameterSample(int x, {
   required int y,
   int z = 0,
@@ -225,13 +271,20 @@ int namedParameterSample(int x, {
   return total;
 }
 
+/*
+  method body 없이 => 로.. 처리됨
+ */
 int arrorFunctionSample(int x, {
   required int y,
   int z = 0,
 }) => x + y + z;
 
+/*
+  typedef
+  c에서 보던... java의 functional interface와 유사함.
+  method signature가 같으면 함수를 typedef를 통해서 할당
+ */
 typedef Operation = int Function(int x, int y, int z);
-
 // 더하기, 빼기, 곱하기
 int add(int x, int y, int z) => x + y + z;
 int subtract(int x, int y, int z) => x - y - z;
