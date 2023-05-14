@@ -40,11 +40,12 @@ void nullableSample() {
   //name = null;
 
   // nullable
-  String? name2 = '카카오';
-  name2 = null;
+  String? name2;
+  //name2 = null;
+  print("nullable name2 : $name2");
 
   // non-nullable ! 사용
-  // print(name2!);
+  print(name2!);
   print(name!);
 
   double? number = 4.0;
@@ -136,22 +137,23 @@ void listSample() {
 }
 
 /*
-  map도 여타 언어와 비스한데, entry를 가져올때 배열과 유사하게 ['key이름'] 으로 value를 불러 올 수 있음.
+  map도 여타 언어와 비슷한데, entry를 가져올때 배열과 유사하게 ['key이름'] 으로 value를 불러 올 수 있음.
   eg. dictionary['{key}']
  */
 void mapSample() {
   Map<String, String> dictionary = {
-    'good morning': '좋은 아침~',
-    'good afternoon': '좋은 오후~',
-    'thank you': '고마워~'
+    'cat': '고양이',
+    'dog': '개',
+    'giraffe': '얼룩말',
   };
+  print('dictionanry[\'dog\']: ${dictionary['dog']}');
   print(dictionary);
-  dictionary.addAll({'good night': '좋은 저녁~'});
+  dictionary.addAll({'zebra': '기린'});
   print(dictionary);
-  print(dictionary['good morning']);
-  dictionary['sorry'] = '미안해';
+  print(dictionary['zebra']);
+  dictionary['horse'] = '말';
   print(dictionary);
-  dictionary.remove('good night');
+  dictionary.remove('dog');
   print(dictionary);
   print(dictionary.keys);
   print(dictionary.values);
