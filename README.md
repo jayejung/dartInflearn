@@ -1,5 +1,7 @@
 # Dart test
 
+### basic
+
 * String 내 변수 포멧팅은 $으로, 표현식은 ${}
   ```dart
   print('value : $value');
@@ -121,7 +123,7 @@
     int z = 0,
   }) => x + y + z;
   ```
-* typedef c와 유사함   
+* typedef : c와 유사함   
   java의 functional interface와 조금 더 유사함   
   method signature가 같으면 함수를 typedef를 통해서 할당
   ```dart
@@ -139,6 +141,8 @@
   print(op(1, 3, 5)); // 15 출력
   print(calculator(1, 3, 5, add));  // 9 출력
   ```
+
+### OOP
 
 A sample command-line application with an entrypoint in `bin/`, library code
 in `lib/`, and example unit test in `test/`.
