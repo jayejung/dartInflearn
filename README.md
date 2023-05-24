@@ -144,5 +144,148 @@
 
 ### OOP
 
+* 클래스 기본 구조
+  ```dart
+  class Family {
+  
+    final String name;
+    final List<String> members;
+  
+    // unnamed 생성자
+    const Family(this.name, this.members);
+  
+    // 커스텀 생성자 (named consturctor)
+    // unnamed constructor는 1개만 작성 가능한듯
+    Family.fromL(List values)
+        : name = values[0],
+          members = values[1];
+
+    void sayHello() {
+      print('hi this is $name');
+    }
+
+    void introduce() {
+      print('hi we are $name. $members');
+    }
+
+    // getter
+    // 하지만, java 기준의 get+멤버명은 아니어서 getter로 볼 수 없는거 아닌가?
+    // get이라는 키워드가 있음
+    String get firstFamilyMember {
+      return members[0];
+    }
+
+    // setter
+    // java 기준의 setter는 아닌듯
+    // set이라는 키워드가 있음
+    set firstFamilyMember(String name) {
+      members[0] = name;
+    }
+
+    String get familyName {
+      return name;
+    }
+
+    set familyName(String name) {
+      name = name;
+    }
+  }
+  ```
+* const로 생성되고 모든 멤버의 값이 동일한 인스턴스는 동치임 (cats == cats2) -> true
+  ```dart
+  Family cats = const Family('cats', ['cheeze', 'mackerel']);
+  Family cats2 = const Family('cats', ['cheeze', 'mackerel']);
+  print(cats == cats2); // true
+  ```
+* 아래와 같이 커스텀 생성자로도 객체를 생성함
+  ```dart
+  Family jungs = Family.fromL(['jungs', ['yvonne', 'erin', 'shai', 'rita', 'jaye']]);
+  
+  //  커스텀 생성자는 아래와 같다 (named constructor)
+  Family.fromL(List values)
+    : name = values[0], members = values[1];
+  ```
+* 클래스 메소드에 get / set 키워드로 설정된 getter, setter는 아래 처럼 멤버를 직접 접근하는 것 처럼 사용
+  ```dart
+  jungs.firstFamilyMember = 'cheeze';
+  print(jungs.firstFamilyMember); // cheeze
+  ```
+* 생성자를 curly brace({})로 표현해서 named parameter로 선언 할 수도 있음
+  ```dart
+  Idol({
+    required this.name,
+    required this.memberCount,
+  });
+  
+  // 사용은 아래와 같이
+  Idol idol = Idol(name: "BTS", memberCount: 5);
+  ```
+* 상속은 extends를 사용해서 함
+  ```dart
+  class BoyGroup extends Idol {
+    // 생성자애서 super 호출(Idol의 기본 생성자는 named parameter
+    BoygGroup(
+      String name,
+      int memberCount,
+    ) : super(name: name, memberCount: memberCount);
+  }
+  ```
+* 클래스 멤버에도 nullable 이 포함될 수 있음  
+  static이 아닌 일반 멤버라고 가정하면, unnamed constructor는 1개만 가능하고 nullable member를 받지 않아도 됨
+  ```dart
+  class Employee {
+    // 피고용인의 근무 건물
+    static String? building;
+    // 피고용인 이름
+    final String name;
+
+    // unnamed constructor 
+    Employee(this.name);
+    ....
+  ```
+* 인터페이스는 abstract 키워드를 class 앞에 추가  
+  추상 클래스와 interface는 구별하지 않는 듯?
+  ```dart
+  abstract class IdolInterface {
+    String name;
+    IdolInterface(this.name);
+    void sayName();
+  }
+  ```
+* 인터페이스 구현시에는 implements 키워드 사용
+  ```dart
+  class MixedGroup implements IdolInterface {
+    @override
+    String name;
+
+    MixedGroup(this.name);
+
+    @override
+    void sayName() {
+      print('hello my name is $name');
+    }
+  }
+  ```
+* 클래스의 제너릭 타입의 멤버
+  ```dart
+  class Lecture<T> {
+    final T id;
+    final String name;
+
+    Lecture(this.id, this.name);
+
+    void printIdType() {
+      print(id.runtimeType);
+    }
+  }
+  ```
+* 사용은 자바와 동일
+  ```dart
+  Lecture<String> english = Lecture("1", 'English');
+  Lecture<Int> math = Lecture(2, "Math");
+  ```
+
+### functional
+
 A sample command-line application with an entrypoint in `bin/`, library code
 in `lib/`, and example unit test in `test/`.

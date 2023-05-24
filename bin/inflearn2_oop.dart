@@ -88,7 +88,7 @@ class Family {
         members = values[1];
 
   void sayHello() {
-    print('hi this is $name]');
+    print('hi this is $name');
   }
 
   void introduce() {
