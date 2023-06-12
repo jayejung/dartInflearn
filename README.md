@@ -287,5 +287,123 @@
 
 ### functional
 
+* Iterable interface내의 map은 Function을 parameter로 받고, 동일 타입을 리턴
+  ```dart
+  List<String> cats = ['shai', 'cheeze', 'mackerel'];
+  final newCats = cats.map((x) { 
+    return 'cat $x';
+  });
+  
+  // noise code 제거된 버전
+  final newCats2 = cats.map((x) => 'cat $x');
+  
+  print(newCats); // (cat shai, cat cheeze, cat mackerel)
+  print(newCats2); // (cat shai, cat cheeze, cat mackerel)
+  
+  // list를 map function으로 mapping했으니, 1개의 요소(x)만 사용
+  String number = '13579';
+  final parsed = number.split('').map((x) => '$x.jpg').toList();
+  print(parsed); // [1.jpg, 3.jpg, 5.jpg, 7.jpg, 9.jpg]
+  
+  // map을 map function으로 mapping했으니, 2개의 요소(key, value) 사용
+  Map<String, String> dictionary = {
+    'Hi': '안녕', 
+    'Thanks': '고마워',
+    'Sorry': '미안',
+  };
+  final dict = dictionary.map((k, v) => MapEntry('Eng $k', 'Kor $v'));
+  ```
+* Iterable interface내의 where는 Function을 parameter로 받는데,   
+  해당 Function은 bool을 리턴해야함 (java의 Predicate?)
+  ```dart
+  List<Map<String, String>> pet = [
+    {
+      'name': 'shai',
+      'home': 'myHome',
+    },
+    {
+      'name': 'cheeze',
+      'home': 'street',
+    },
+    {
+      'name': 'mackerel',
+      'home': 'apt',
+    }, 
+  ];
+  final myHomePet = pet.where((x) => x['home'] == 'myHome').toList();
+  print('myHomePet: ${myHomePet}'); // [{name: shai, home: myHome}]
+  ```
+* Iterable interface내의 reduce는 반복 요소를 줄여 가면서 결과를 만듬   
+  2개의 인수를 받고, 반환값은 인수와 같은 타입임
+  ```dart
+  final items = [1, 2, 3, 4, 5];
+  var maxResult = items[0];
+  // for 문으로 max값 검출
+  for(var i = 1; i < items.length; i++) {
+    maxResult = max(items[1], maxResult);
+  }
+  
+  // reduce로 max값 검출 (위의 for문과 동일한 결과)
+  maxResult = items.reduce((e, v) => max(e, v)));
+  ```
+* Iterable interface내의 fold 함수는 return 값이 계속 더해지는 형태임   
+  fold 함수는 positional parameter 2개를 가지며, 첫 번째는 실행 index를 두 번째는 함수를 가짐
+  ```dart
+  List<int> numbers = [1, 3, 5, 7, 9];
+  final sum = numbers.fold<int>(0, (total, element) {
+    return total + element;
+  });
+  print(sum); // 25
+  
+  List<String> words = ['Hi, ', 'My name is ', 'jaye'];
+  final count = words.fold(0, (total, element) => total + element.length);
+  print(count); // 19 (각 element 문자열의 length의 합)
+  ```
+
+### Future, async/await
+
+* Future 미래에 받아올 값 혹은 루틴   
+  아래의 addNumbers 펑션 내의 Future.delayed는 특정 duration(첫번째 파라메터)이 지난후, 두 번째 파라메터로 전달된 함수를 실행
+  ```dart
+  void addNumbers(int number1, int number2) {
+    print('calculating...:  $number1 + $number2');
+
+    // 서버 시뮬레이션
+    Future.delayed(Duration(seconds: 2), () {
+      print('calculation completed : $number1 + $number2 = ${number1 + number2}');
+    });
+
+    print('end of function: $number1 + $number2');
+  }
+  
+  // 위의 메소드를 addNumbers(1, 2);로 호출하게 되면, 아래와 같은 순서로 출력됨
+  // calculating...: 3
+  // end of function: 3
+  // (2초 후) 
+  // calculation completed: 1 + 2 = 3 
+  ```
+* 위의 함수를 동기로 실행하고 싶으면, 호출시 await를 함수 앞에 붙혀서 호출해야하고, 함수는 Future를 리턴해야하고 함수의 scope 범위의 시작점인 { 앞에
+  async를 추가해야함.   
+  Future.delayed 구문 앞에도 await를 추가   
+  Future.delayed가 실행 완료 될 때까시 waiting 함
+  ```dart
+  Future<void> addNumbersAsync(int number1, int number2) async {
+    print('async calculating...: $number1 + $number2');
+
+    // 서버 시뮬레이션
+    await Future.delayed(Duration(seconds: 2), () {
+      print('async calculation completed: $number1 + $number2 = ${number1 + number2}');
+    });
+
+    print('async end of function: $number1 + $number2');
+  }
+  
+  // 위의 메소드를 await addNumbersAsync(1, 2);로 호출하면 아래와 같은 순서로 출력됨
+  // calculating...: 3
+  // (2초 후) 
+  // async calculation completed: 1 + 2 = 3
+  // end of function: 3
+  ```
+
 A sample command-line application with an entrypoint in `bin/`, library code
 in `lib/`, and example unit test in `test/`.
