@@ -22,8 +22,9 @@ void main(List<String> arguments) {
   inflearn.Operation operation = inflearn.add;
   print(operation(10, 20, 30));
   inflearn.Operation subOperation = inflearn.subtract;
-  print(subOperation(10, 20 , 30));
+  print(subOperation(10, 20, 30));
   print(inflearn.calculator(10, 20, 30, inflearn.add));
   print(inflearn.calculator(10, 20, 30, inflearn.subtract));
 
+  print(Uri.decodeComponent('uc1E3/qbjnPXZ/%2BsaBvJCYCjuPNRkiliFRhSeaFptLM='));
 }
